@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre nós</title>
+    <link rel="stylesheet" href="../css/inistyle.css">
+</head>
+<body>
+    <div class="header">
+        <div class="menu">
+            <div class="menu-icon"></div>
+            <div class="title"><a href="../index.html">HELPNOW</a></div>
+            <div class="menu-links">
+                <a href="#">Saiba Mais</a>
+            </div>
+        </div>
+        <div class="profile-container">
+            <span class="profile-tooltip">Usuário não logado
+                <span class="tooltip-text">Realize seu login para personalizar sua experiência</span>
+            </span>
+            <div class="profile-icon" onmouseover="showMenu()" onmouseout="hideMenu()">
+                <div class="profile-menu" id="profileMenu">
+                    <a href="../js/login.html">Entrar / Criar conta</a>
+                    <a href="javascript:void(0);" onclick="aviso()">Minha conta</a>
+                    <a href="#">Lista de Desejos</a>
+                    <a href="#">Pedidos</a>
+                    <a href="#">Registro do produto</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="sn-header"> Sobre nós
+    </div>
+    <div class="container-sobre">
+        <div class="card-sobre" id="content">
+            <!-- Conteúdo dinâmico será carregado aqui -->
+            <h1>Bem-vindo à página inicial!</h1>
+            <div class="linha"></div>
+            <p>Este é o conteúdo padrão quando nenhum item do menu está selecionado.</p>
+        </div>
+        <div class="card-lateral">
+            <img src="../imagens/logo.png">
+            <ul id="menu">
+                <li><a href="#" onclick="selectMenuItem(this, 'inicial')">Inicial</a></li>
+                <li><a href="#" onclick="selectMenuItem(this, 'contatos')">Contatos</a></li>
+                <li><a href="#" onclick="selectMenuItem(this, 'time')">Time</a></li>
+                <li><a href="#" onclick="selectMenuItem(this, 'proposta')">Proposta</a></li>
+                <li><a href="#" onclick="selectMenuItem(this, 'avalie')">Avalie</a></li>
+                <li><a href="#" onclick="selectMenuItem(this, 'Premium')">Seja Premium</a></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        document.querySelector('.profile-tooltip').addEventListener('mouseover', function() {
+            document.querySelector('.tooltip-text').style.visibility = 'visible';
+            document.querySelector('.tooltip-text').style.opacity = '1';
+        });
+        document.querySelector('.profile-tooltip').addEventListener('mouseout', function() {
+            document.querySelector('.tooltip-text').style.visibility = 'hidden';
+            document.querySelector('.tooltip-text').style.opacity = '0';
+        });
+        document.querySelector('.profile-icon').addEventListener('mouseover', function() {
+            document.getElementById('profileMenu').style.display = 'block';
+        });
+        document.querySelector('.profile-icon').addEventListener('mouseout', function() {
+            document.getElementById('profileMenu').style.display = 'none';
+        });
+        
+        function selectMenuItem(selectedItem, section) {
+            // Remover a classe 'selected' de todos os itens
+            var menuItems = document.querySelectorAll("#menu li");
+            menuItems.forEach(function(item) {
+                item.classList.remove("selected");
+            });
+
+            // Adicionar a classe 'selected' ao item clicado
+            selectedItem.parentNode.classList.add("selected");
+
+            // Atualizar o conteúdo da área principal com base no item selecionado
+            var content = document.getElementById("content");
+
+            switch(section) {
+                case 'inicial':
+                    content.innerHTML = "<h1>Bem-vindo à página inicial!</h1><div class='linha'></div><p>Este é o conteúdo da página inicial.</p>";
+                    break;
+                case 'contatos':
+                    content.innerHTML = "<h1>Contatos</h1><div class='linha'></div><p>Aqui você encontra nossas informações de contato.</p>";
+                    break;
+                case 'time':
+                    content.innerHTML = "<h1>Nosso Time</h1><div class='linha'></div><p>Conheça nossa equipe.</p>";
+                    break;
+                case 'proposta':
+                    content.innerHTML = "<h1>Proposta de Valor</h1><div class='linha'></div><p>Veja nossa proposta de valor.</p>";
+                    break;
+                case 'avalie':
+                    content.innerHTML = "<h1>Avaliação</h1><div class='linha'></div><p>Avalie nossos serviços.</p>";
+                    break;
+                
+                case 'Premium':
+                    content.innerHTML = "<h1>HelpNow Premium</h1><div class='linha'></div><p>Entenda os benefícios do nosso plano Premium:</p>";
+                    break;
+                default:
+                    content.innerHTML = "<h1>Bem-vindo à página inicial!</h1><div class='linha'></div><p>Este é o conteúdo padrão quando nenhum item do menu está selecionado.</p>";
+
+                
+            }
+        }
+
+        function aviso() {
+            // Função de login - adicione a lógica aqui
+            alert("Você será redirecionado para a tela de login");
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

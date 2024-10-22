@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNow</title>
+    <link rel="stylesheet" href="css/inistyle.css">
+    <style>
+    </style>
+</head>
+<body>
+    <body>
+        <div class="header">
+            <div class="menu">
+                <div class="menu-icon"><img src="imagens/logo.png" alt="Logo"></div>
+                <div class="title"><a href="index.html">HELPNOW</a></div>
+                <div class="menu-links">
+                    <a href="js/sobre.html">Sobre Nós</a>
+                    <a href="#">Saiba Mais</a>
+                </div>
+            </div>
+            <div class="profile-container">
+                <span class="profile-tooltip">
+                    <!-- Aqui o texto será atualizado via JavaScript -->
+                    <span id="userStatus">Usuário não logado</span>
+                    <span class="tooltip-text">Realize seu login para personalizar sua experiência</span>
+                </span>
+                <div class="profile-icon" onmouseover="showMenu()" onmouseout="hideMenu()">
+                    <div class="profile-menu" id="profileMenu">
+                        <a href="js/login.html" id="loginLink">Entrar / Criar conta</a>
+                        <!-- Novo link para encerrar sessão -->
+                        <a href="php/logout.php" id="logoutLink" style="display:none;">Sair</a>
+                        <a href="php/conta.html">Minha conta</a>
+                        <a href="#">Lista de Desejos</a>
+                        <a href="#">Pedidos</a>
+                        <a href="js/adcadastro.html" id="adlink" style="display:none;">Criar anúncio</a>
+                        <a href="js/myads.php" id="myads" style="display:none;">Meus anúncios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Pesquisar...">
+        <button>Buscar</button>
+    </div>
+    <div class="container">
+        <div class="card">
+            <a href="js/TESTE.php?categoria=Eletricista">
+                <p>Eletricista</p>
+                <img src="imagens/eletricista.png" alt="Eletricista">
+                <div class="details">
+                    <p>
+                        Detalhes sobre o eletricista.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="js/TESTE.php?categoria=Diarista">
+                <p>Diarista</p>
+                <img src="imagens/diarista.png" alt="Diarista">
+                <div class="details">
+                    <p>Detalhes sobre o diarista.</p>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="js/TESTE.php?categoria=Informática">
+                <p>Técnico de TI</p>
+                <img src="imagens/ti.png" alt="Técnico de TI">
+                <div class="details">
+                    <p>Detalhes sobre o técnico de TI.</p>
+                </div>
+            </a>
+        </div>
+        <div class="card">
+            <a href="js/TESTE.php?categoria=Outros">
+                <p>Outros</p>
+                <img src="imagens/outros.png" alt="Outros">
+                <div class="details">
+                    <p>Detalhes sobre outros serviços.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            // Verifique se o usuário está logado
+            fetch('php/check_session.php')
+            .then(response => response.json())
+            .then(data => {
+                const userStatusElement = document.getElementById('userStatus');
+                const loginLinkElement = document.getElementById('loginLink');
+                const logoutLinkElement = document.getElementById('logoutLink');
+                const adlinkElement = document.getElementById('adlink');
+                const myadsElement = document.getElementById('myads');
+                
+                // Verifique se os elementos existem antes de tentar acessá-los
+                if (userStatusElement && loginLinkElement && logoutLinkElement) {
+                    if (data.logged_in) {
+                        userStatusElement.innerText = 'Logado como: ' + data.user_name;
+                        loginLinkElement.style.display = 'none';
+                        logoutLinkElement.style.display = 'block';
+                        adlinkElement.style.display = 'block';
+                        myadsElement.style.display = 'block';
+                    } else {
+                        userStatusElement.innerText = 'Usuário não logado';
+                        loginLinkElement.style.display = 'block';
+                        logoutLinkElement.style.display = 'none';
+                    }
+                } else {
+                    console.error('Elementos não encontrados no DOM');
+                }
+            })
+            .catch(error => console.error('Erro na verificação de sessão:', error)); // Adiciona log de erro
+        };
+        
+        // Funções de exibição do menu
+        function showMenu() {
+            document.getElementById('profileMenu').style.display = 'block';
+        }
+        
+        function hideMenu() {
+            document.getElementById('profileMenu').style.display = 'none';
+        }
+        
+        function aviso() {
+            alert("Você será redirecionado para a tela de login");
+            window.location.href = 'js/login.html';
+        }
+        </script>        
+</body>
+</html>

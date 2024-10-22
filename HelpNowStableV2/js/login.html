@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Cadastro</title>
+    <link rel="stylesheet" href="../css/inistyle.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card" id="loginCard">
+            <h2 id="formTitle">Login</h2>
+            <!-- Formulário de Login -->
+            <form id="loginForm">
+                <input type="text" id="Email" name="Email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Senha" required>
+                <button type="button" onclick="login()">Entrar</button>
+            </form>
+            <!-- Formulário de Cadastro -->
+            <form id="signupForm" style="display: none;">
+                <input type="text" id="newUsername" name="newUsername" placeholder="Nome de Usuário" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Senha" required>
+                <input type="text" id="newTelefone" name="newTelefone" placeholder="Número de telefone" required>
+                <button type="button" onclick="signup()">Cadastrar</button>
+            </form>
+            <!-- Link para alternar entre Login e Cadastro -->
+            <div class="switch-mode">
+                <a href="#" onclick="toggleForms()">Não tem uma conta? Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleForms() {
+            var loginForm = document.getElementById("loginForm");
+            var signupForm = document.getElementById("signupForm");
+            var formTitle = document.getElementById("formTitle");
+            var switchLink = document.querySelector(".switch-mode a");
+
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                signupForm.style.display = "none";
+                formTitle.textContent = "Login";
+                switchLink.textContent = "Não tem uma conta? Cadastre-se";
+            } else {
+                loginForm.style.display = "none";
+                signupForm.style.display = "block";
+                formTitle.textContent = "Cadastro";
+                switchLink.textContent = "Já tem uma conta? Faça login";
+            }
+        }
+
+        class Usuario {
+            constructor(email, senha) {
+                this.email = email;
+                this.senha = senha;
+            }
+
+            login() {
+                fetch('../php/logar.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `Email=${encodeURIComponent(this.email)}&password=${encodeURIComponent(this.senha)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // Exibe a resposta para fins de depuração
+                    if (data.includes("Login realizado com sucesso!")) {
+                        alert('Login realizado com sucesso!');
+                        window.location.href = '../index.html';
+                    } else {
+                        alert(data); // Exibe a mensagem de erro recebida do PHP
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+            }
+        }
+
+        class Cadastro {
+            constructor(username, email, senha, telefone) {
+                this.username = username;
+                this.email = email;
+                this.senha = senha;
+                this.telefone = telefone;
+            }
+
+            signup() {
+                fetch('../php/cadastro.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `newUsername=${encodeURIComponent(this.username)}&email=${encodeURIComponent(this.email)}&newPassword=${encodeURIComponent(this.senha)}&newTelefone=${encodeURIComponent(this.telefone)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // Exibe a resposta para fins de depuração
+                    if (data.includes("Cadastro realizado com sucesso!")) {
+                        alert('Cadastro realizado com sucesso!');
+                        window.location.href = '../index.html';
+                    } else {
+                        alert(data); // Exibe a mensagem de erro recebida do PHP
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+            }
+        }
+
+        function login() {
+            const email = document.getElementById('Email').value;
+            const senha = document.getElementById('password').value;
+            const usuario = new Usuario(email, senha);
+
+            // Faz uma requisição POST para o script de login
+            usuario.login();
+        }
+
+        function signup() {
+            const username = document.getElementById('newUsername').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('newPassword').value;
+            const telefone = document.getElementById('newTelefone').value;
+            const cadastro = new Cadastro(username, email, senha, telefone);
+            cadastro.signup();
+        }
+    </script>
+</body>
+</html>

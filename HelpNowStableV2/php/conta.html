@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta - HelpNow</title>
+    <link rel="stylesheet" href="../css/conta.css">
+</head>
+<body>
+    <div class="header">
+        <div class="menu">
+            <div class="menu-icon">
+                <img src="../imagens/logo.png" alt="Logo">
+                <span class="title"><a href="../index.html">HELPNOW</a></span>
+            </div>
+            <div class="menu-links">
+                <a href="../index.html">Página Inicial</a>
+                <a href="../js/sobre.html">Sobre Nós</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Minha Conta</h2>
+        <form id="accountForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="Nome">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="Email">
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="Telefone">
+            </div>
+            <div class="form-group">
+                <label for="foto_perfil">Foto de Perfil:</label>
+                <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*">
+                <div id="currentPhoto">
+                    <!-- A imagem atual do perfil será carregada aqui -->
+                </div>
+            </div>
+            <button type="submit">Atualizar Informações</button>
+        </form>
+    </div>
+
+    <script>
+    // Carregar as informações do usuário ao carregar a página
+    window.onload = function() {
+    fetch('../php/get_user_info.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('nome').value = data.user.nome;
+            document.getElementById('email').value = data.user.email;
+            document.getElementById('telefone').value = data.user.telefone;
+            
+            if (data.user.foto_perfil) {
+                // Exibir no console a parte inicial da string base64
+                console.log(data.user.foto_perfil.substring(0, 100)); // Apenas os primeiros 100 caracteres
+                document.getElementById('currentPhoto').innerHTML = '<img src="data:image/jpeg;base64,' + data.user.foto_perfil + '" alt="Foto de Perfil" style="max-width: 100%; height: auto;" />';
+            }
+        } else {
+            alert('Não foi possível carregar as informações do usuário.');
+        }
+    })
+    .catch(error => console.error('Erro ao buscar informações do usuário:', error));
+};
+
+    // Enviar o formulário para atualizar as informações do usuário
+    document.getElementById('accountForm').onsubmit = function(event) {
+        event.preventDefault(); // Prevenir recarregamento da página
+
+        let formData = new FormData(this);
+
+        fetch('../php/update_user_info.php', { // Corrigir o caminho
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data); // Mostra mensagem de sucesso ou erro
+        })
+        .catch(error => console.error('Erro ao atualizar informações do usuário:', error));
+    };
+    </script>
+</body>
+</html>

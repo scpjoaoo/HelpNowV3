@@ -1,0 +1,69 @@
+/* Estilo geral para o corpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container do formulário de anúncio */
+.anuncio-container {
+    background-color: #ffffff;
+    width: 60%;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título do formulário */
+.anuncio-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilo dos inputs, textarea e select */
+.anuncio-card input[type="text"],
+.anuncio-card input[type="number"],
+.anuncio-card input[type="file"],
+.anuncio-card textarea,
+.anuncio-card select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Estilo para o textarea */
+.anuncio-card textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Botão de cadastro */
+.anuncio-card button {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover no botão */
+.anuncio-card button:hover {
+    background-color: #555;
+}
